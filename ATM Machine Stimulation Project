@@ -1,0 +1,95 @@
+import java.util.*;
+
+abstract class Bank {
+    abstract void checkbalance();
+    abstract void deposit(int n);
+    abstract void withdraw(int v);
+}
+
+class Atm extends Bank {
+    private int amount;
+    int originalPin = 1234;
+    private int pin;
+
+    Atm(int amount) {
+        this.amount = amount;
+    }
+
+    void setPin(int pin) {
+        this.pin = pin;
+    }
+
+    boolean ValidatePin() {
+        return pin == originalPin;
+    }
+
+    void getAmount() {
+        System.out.println(amount);
+    }
+
+    void checkbalance() {
+        System.out.println("Balance is: " + amount);
+    }
+
+    void deposit(int a) {
+        if (a > 0) {
+            amount += a;
+            System.out.println("Amount Added Successfully");
+        } else {
+            System.out.println("Invalid amount");
+        }
+    }
+
+    void withdraw(int a) {
+        if (a <= amount) {
+            amount -= a;
+            System.out.println("Collect your amount: " + a);
+        } else {
+            System.out.println("Insufficient Balance");
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        Atm atm = new Atm(100000);
+
+        System.out.print("Enter the Pin Number: ");
+        int pin = s.nextInt();
+        atm.setPin(pin);
+
+        if (atm.ValidatePin()) {
+            int num = 0;
+            do {
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!");
+                System.out.println("Press 1 for Check Balance");
+                System.out.println("Press 2 for Withdraw");
+                System.out.println("Press 3 for Deposit");
+                System.out.println("Press 4 to Exit");
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!");
+                num = s.nextInt();
+
+                switch (num) {
+                    case 1:
+                        atm.checkbalance();
+                        break;
+                    case 2:
+                        System.out.print("Enter the amount to withdraw: ");
+                        int a = s.nextInt();
+                        atm.withdraw(a);
+                        break;
+                    case 3:
+                        System.out.print("Enter the amount to deposit: ");
+                        int b = s.nextInt();
+                        atm.deposit(b);
+                        break;
+                }
+            } while (num != 4);
+
+            System.out.println("!!!Thank you for using our ATM!!!");
+        } else {
+            System.out.println("Wrong Pin Number");
+        }
+    }
+}
